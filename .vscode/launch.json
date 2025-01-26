@@ -9,7 +9,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/MarkdownTestCli/bin/Debug/net8.0/MarkdownTestCli.dll",
+            "program": "${workspaceFolder}/MarkdownTest.Cli/bin/Debug/net8.0/MarkdownTest.Cli.dll",
             "args": [],
             "cwd": "${workspaceFolder}",
             "stopAtEntry": false,

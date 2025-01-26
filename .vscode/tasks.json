@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/MarkdownTestCli/MarkdownTestCli.csproj"
+                "${workspaceFolder}/MarkdownTest.Cli/MarkdownTest.Cli.csproj"
             ],
             "problemMatcher": "$msCompile",
             "group": {
