@@ -8,11 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Markdig" Version="0.40.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="../MarkdownTest.Core/MarkdownTest.Core.csproj" />
+    <Compile Include="../MarkdownTest.Cli/MarkdownTestCli.cs" Link="MarkdownTestCli.cs" />
   </ItemGroup>
 
 </Project>
