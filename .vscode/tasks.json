@@ -1,0 +1,92 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/MarkdownTestCli/MarkdownTestCli.csproj"
+            ],
+            "problemMatcher": "$msCompile",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "Test - Domains",
+            "detail": "ドメインのテスト",
+            "command": "dotnet",
+            "type": "process",
+            "group": "test",
+            "args": [
+                "test",
+                "${workspaceFolder}/Arsenals.Domains.Tests/Arsenals.Domains.Tests.csproj",
+                "--collect:",
+                "XPlat Code Coverage",
+                "--logger",
+                "trx;LogFileName=TestResult.trx"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "Test - ApplicationServices",
+            "detail": "アプリケーションサービスのテスト",
+            "command": "dotnet",
+            "type": "process",
+            "group": "test",
+            "args": [
+                "test",
+                "${workspaceFolder}/Arsenals.ApplicationServices.Tests/Arsenals.ApplicationServices.Tests.csproj",
+                "--collect:",
+                "XPlat Code Coverage",
+                "--logger",
+                "trx;LogFileName=TestResult.trx"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "Generate Test Results",
+            "detail": "テスト結果をhtmlで出力",
+            "group": "test",
+            "command": "reportgenerator",
+            "type": "shell",
+            "args": [
+                "-reports:\"${workspaceFolder}/**/TestResults/**/coverage.cobertura.xml\"",
+                "-targetdir:TestReport",
+                "-reporttypes:Html"
+            ],
+            "dependsOn": [
+                "Test - applicationServices"
+            ]
+        },
+        {
+            "label": "Specify DOTNET_ENVIRONMENT",
+            "detail": "DOTNET_ENVIRONMENT環境変数を設定する",
+            "command": "export",
+            "type": "shell",
+            "args": [
+                "DOTNET_ENVIRONMENT='${input:environment}'",
+            ]
+        }
+    ],
+    "inputs": [
+        {
+            "type": "promptString",
+            "id": "migrationName",
+            "description": "マイグレーション名",
+        },
+        {
+            "type": "pickString",
+            "id": "environment",
+            "description": "環境変数",
+            "options": [
+                "Development",
+                "Staging",
+                "Production"
+            ]
+        }
+    ]
+}
