@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using CommandLine;
 using MarkdownTest.Core;
 
@@ -18,10 +17,8 @@ public class Client
                 .ParseArguments<Options>(args)
                 .WithParsed(options =>
                 {
-                    Console.WriteLine(options.Context);
                     TestCase testCase = MarkdownParser.Parse(options.Context);
                     Console.WriteLine(testCase.ToJson());
-                    Debug.WriteLine(testCase.ToJson());
                 });
     }
 }
