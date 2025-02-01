@@ -33,7 +33,7 @@ public class ParserTest
             - レスポンスを確認する。
             """;
 
-        TestCase actual = Parser.Parse(markdown);
+        TestCase actual = MarkdownParser.Parse(markdown);
 
         Assert.Equal("ユーザー認証成功テスト", actual.Name);
         Assert.Equal("有効なユーザー名とパスワードを使用した場合、認証が成功することを確認する。", actual.Summary);
@@ -84,7 +84,7 @@ public class ParserTest
             AUTH-001
             """;
 
-        TestCase actual = Parser.Parse(markdown);
+        TestCase actual = MarkdownParser.Parse(markdown);
 
         Assert.Equal("ユーザー認証成功テスト", actual.Name);
         Assert.Equal("有効なユーザー名とパスワードを使用した場合、認証が成功することを確認する。", actual.Summary);

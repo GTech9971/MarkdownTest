@@ -5,7 +5,7 @@ using MarkdownTest.Core;
 
 namespace MarkdownTest.Cli;
 
-public class Parser
+public class MarkdownParser
 {
     public static TestCase Parse(string markdown)
     {

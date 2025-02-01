@@ -1,3 +1,7 @@
+using System.Text.Encodings.Web;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+
 namespace MarkdownTest.Core;
 
 public record class TestCase
@@ -5,50 +9,60 @@ public record class TestCase
     /// <summary>
     /// テストケース名
     /// </summary>
+    [JsonPropertyName("name")]
     public string Name { get; init; }
     /// <summary>
     /// テスト概要
     /// </summary>
+    [JsonPropertyName("summary")]
     public string Summary { get; init; }
 
     /// <summary>
     /// 入力値
     /// </summary>
+    [JsonPropertyName("inputs")]
     public IEnumerable<string> Inputs { get; init; }
 
     /// <summary>
     /// 期待値
     /// </summary>
+    [JsonPropertyName("expectedResults")]
     public IEnumerable<string> ExpectedResults { get; init; }
 
     /// <summary>
     /// 前提条件
     /// </summary>
+    [JsonPropertyName("preconditions")]
     public IEnumerable<string> Preconditions { get; init; }
 
     /// <summary>
     /// 実行手順
     /// </summary>
+    [JsonPropertyName("steps")]
     public IEnumerable<string> Steps { get; init; }
 
     /// <summary>
     /// 実行環境
     /// </summary>
+    [JsonPropertyName("executeEnvironments")]
     public IEnumerable<string>? ExecuteEnvironments { get; private set; }
 
     /// <summary>
     /// テストコードとのリンク
     /// </summary>
+    [JsonPropertyName("testCodeLink")]
     public string? TestCodeLink { get; private set; }
 
     /// <summary>
     /// 実装コードとのリンク
     /// </summary>
+    [JsonPropertyName("codeLink")]
     public string? CodeLink { get; private set; }
 
     /// <summary>
     /// テストID
     /// </summary>
+    [JsonPropertyName("testId")]
     public string? TestId { get; private set; }
 
     public TestCase(string name, string summary, IEnumerable<string> inputs, IEnumerable<string> expectedResults, IEnumerable<string> preconditions, IEnumerable<string> steps)
@@ -59,6 +73,15 @@ public record class TestCase
         ExpectedResults = expectedResults;
         Preconditions = preconditions;
         Steps = steps;
+    }
+
+    public string ToJson()
+    {
+        var options = new JsonSerializerOptions
+        {
+            Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+        };
+        return JsonSerializer.Serialize(this, options);
     }
 
     public class Builder
