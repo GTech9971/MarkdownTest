@@ -97,7 +97,7 @@ public class ParserTest
             - レスポンスを確認する。
             """;
 
-        IEnumerable<TestCase> actual = Parser.Parses(markdown);
+        IEnumerable<TestCase> actual = MarkdownParser.Parses(markdown);
 
         Assert.Equal(2, actual.Count());
     }
