@@ -1,11 +1,14 @@
 using System;
+using System.Diagnostics;
+using System.Threading.Tasks;
+using MarkdownTest.Core;
 
 namespace MarkdownTest.Cli.Test;
 
 public class SourceCodeParserTest
 {
     [Fact(DisplayName = "1ソースの解析")]
-    public void single_source()
+    public async Task single_source()
     {
         string testCode =
         """
@@ -50,6 +53,16 @@ public class SourceCodeParserTest
         }
         """;
 
-        SourceCodeParser.Parse(testCode);
+        await SourceCodeParser.Parse(testCode, "sample.cs", "MarkdownTest.Cli.Test");
+    }
+
+    [Fact(DisplayName = "1プロジェクト解析")]
+    public async Task parse_single_project()
+    {
+        var solution = "../../../../SampleProject/SampleProject.sln";
+
+        IEnumerable<SourceCodeRoot> roots = await SourceCodeParser.ParseSolution(solution);
+
+        Assert.True(roots.Any());
     }
 }
