@@ -1,9 +1,11 @@
+using System.Threading.Tasks;
+
 namespace MarkdownTest.Cli.Test;
 
 public class ClientTest
 {
     [Fact(DisplayName = "1ケースの解析")]
-    public void single_test_case_parse()
+    public async Task single_test_case_parse()
     {
         string markdown =
                    """
@@ -31,6 +33,19 @@ public class ClientTest
             - レスポンスを確認する。
             """;
 
-        Client.Main(["-c", markdown]);
+        await Client.Main(["-c", markdown]);
+    }
+
+    [Fact(DisplayName = "ソリューションを解析")]
+    public async Task solution_parse()
+    {
+        using var output = new StringWriter();
+        Console.SetOut(output);
+
+        await Client.Main(["-s", "../../../../SampleProject/SampleProject.sln"]);
+
+        string result = output.ToString().Trim();
+
+        Assert.True(result.Any());
     }
 }

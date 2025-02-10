@@ -20,5 +20,5 @@ public class SourceCode
     public bool IsTest { get; init; }
 
     [JsonPropertyName("sourceCodeDetails")]
-    public IEnumerable<SourceCodeDetail> SourceCodeDetails = [];
+    public IEnumerable<SourceCodeDetail> SourceCodeDetails { get; init; } = [];
 }

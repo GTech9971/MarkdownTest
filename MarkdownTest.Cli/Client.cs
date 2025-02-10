@@ -1,3 +1,7 @@
+using System.Diagnostics;
+using System.Text.Encodings.Web;
+using System.Text.Json;
+using System.Threading.Tasks;
 using CommandLine;
 using MarkdownTest.Core;
 
@@ -7,18 +11,32 @@ public class Client
 {
     public class Options
     {
-        [Option('c', "context", Required = true, HelpText = "markdownの内容")]
-        public string Context { get; set; } = null!;
+        [Option('c', "context", HelpText = "markdownの内容")]
+        public string? Context { get; set; }
+
+        [Option('s', "solution", HelpText = "sln(ソリューションファイルパス)")]
+        public string? Solution { get; set; }
     }
 
-    public static void Main(string[] args)
+    public static async Task Main(string[] args)
     {
-        Parser.Default
+        await Parser.Default
                 .ParseArguments<Options>(args)
-                .WithParsed(options =>
+                .WithParsedAsync(async options =>
                 {
-                    TestCase testCase = MarkdownParser.Parse(options.Context);
-                    Console.WriteLine(testCase.ToJson());
+                    if (string.IsNullOrWhiteSpace(options.Solution) == false)
+                    {
+                        IEnumerable<SourceCodeRoot> sourceCodeRoots = await SourceCodeParser.ParseSolution(options.Solution);
+                        var jsonOptions = new JsonSerializerOptions { Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping };
+                        string json = JsonSerializer.Serialize(sourceCodeRoots, jsonOptions);
+                        Console.WriteLine(json);
+                        Debug.WriteLine(json);
+                    }
+                    else
+                    {
+                        TestCase testCase = MarkdownParser.Parse(options.Context!);
+                        Console.WriteLine(testCase.ToJson());
+                    }
                 });
     }
 }
